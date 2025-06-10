@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Воронов Артур - Веб-разработчик</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-main);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .skill-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Services Section */
+        .services {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0.1;
+            transition: left 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            left: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .service-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            color: var(--text-gray);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-item {
+                max-width: 300px;
+            }
+        }
+
+        /* Floating elements */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Артур Воронов</div>
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Воронов Артур</h1>
+                    <p>Веб-разработчик создающий современные одностраничные сайты</p>
+                    <a href="#contact" class="cta-button">Начать проект</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title fade-in">Обо мне</h2>
+                <div class="about-content">
+                    <div class="about-text fade-in">
+                        <p>Привет! Я Артур Воронов, веб-разработчик с опытом создания качественных одностраничных сайтов. Специализируюсь на современных технологиях HTML, CSS и JavaScript для создания интерактивных и адаптивных веб-решений.</p>
+                        <p>Мой подход к разработке основан на понимании потребностей клиента и создании пользовательского опыта, который не только выглядит великолепно, но и эффективно решает бизнес-задачи.</p>
+                    </div>
+                    <div class="skills-grid fade-in">
+                        <div class="skill-item">
+                            <h3>HTML/CSS</h3>
+                            <p>Семантическая верстка и современные стили</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>JavaScript</h3>
+                            <p>Интерактивность и динамический контент</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>Responsive Design</h3>
+                            <p>Адаптивная верстка для всех устройств</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>Работа с клиентами</h3>
+                            <p>Понимание потребностей и эффективное общение</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title fade-in">Мои услуги</h2>
+                <div class="services-grid">
+                    <div class="service-card fade-in">
+                        <div class="service-icon">🚀</div>
+                        <h3>Разработка Landing Page</h3>
+                        <p>Создание эффективных одностраничных сайтов для продвижения продуктов и услуг с высокой конверсией.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">💼</div>
+                        <h3>Корпоративные сайты</h3>
+                        <p>Разработка профессиональных веб-сайтов для представления бизнеса в интернете.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">📱</div>
+                        <h3>Адаптивная верстка</h3>
+                        <p>Создание сайтов, которые отлично выглядят на всех устройствах - от мобильных до десктопов.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">⚡</div>
+                        <h3>Оптимизация производительности</h3>
+                        <p>Повышение скорости загрузки и общей производительности существующих сайтов.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">🎨</div>
+                        <h3>UI/UX консультации</h3>
+                        <p>Анализ и улучшение пользовательского опыта для увеличения эффективности сайта.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">🔧</div>
+                        <h3>Техническая поддержка</h3>
+                        <p>Обслуживание и обновление существующих сайтов, решение технических вопросов.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title fade-in">Связаться со мной</h2>
+                <div class="contact-content fade-in">
+                    <p>Готов обсудить ваш проект и предложить оптимальное решение для ваших задач. Свяжитесь со мной удобным способом!</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3>Gmail</h3>
+                            <p>arturvoronov260810@gmail.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Telegram</h3>
+                            <p>@arturch62</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Телефон</h3>
+                            <p>+7 (778) 367-53-43</p>
+                        </div>
+                    </div>
+                    <a href="mailto:arthur.voronov@email.com" class="cta-button">Написать сейчас</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Воронов Артур. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 15, 35, 0.98)';
+            } else {
+                header.style.background = 'rgba(15, 15, 35, 0.95)';
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(element => {
+            fadeObserver.observe(element);
+        });
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const shapes = document.querySelectorAll('.shape');
+            const scrolled = window.pageYOffset;
+            
+            shapes.forEach((shape, index) => {
+                const rate = scrolled * -0.5 * (index + 1);
+                shape.style.transform = `translateY(${rate}px)`;
+            });
+        });
+
+        // Add hover effect to service cards
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add typing effect to hero title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect after page load
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('.hero-content h1');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                typeWriter(heroTitle, originalText, 150);
+            }
+        });
+
+        // Add dynamic gradient animation to CTA buttons
+        const ctaButtons = document.querySelectorAll('.cta-button');
+        ctaButtons.forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                button.style.setProperty('--mouse-x', x + 'px');
+                button.style.setProperty('--mouse-y', y + 'px');
+            });
+        });
+    </script>
+    </body>
